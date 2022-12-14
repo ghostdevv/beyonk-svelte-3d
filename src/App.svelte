@@ -8,9 +8,15 @@
         PerspectiveCamera,
         HemisphereLight,
     } from '@threlte/core';
+    import Transition from './lib/Transition.svelte';
+    import { loadSvelte } from './lib/svelte/svelte';
+    import { loadBeyonk } from './lib/beyonk/beyonk';
 
     let showing: 'beyonk' | 'svelte' = 'svelte';
     let interval: ReturnType<typeof setInterval>;
+
+    const beyonkProps = loadBeyonk();
+    const svelteProps = loadSvelte();
 
     onMount(() => {
         interval = setInterval(() => {
@@ -24,11 +30,7 @@
 <div>
     <Canvas>
         <PerspectiveCamera position={{ x: 0, y: 0, z: -200 }}>
-            <OrbitControls
-                autoRotate
-                autoRotateSpeed={2}
-                enableRotate={false}
-                enablePan={false} />
+            <OrbitControls autoRotate enableRotate={false} enablePan={false} />
         </PerspectiveCamera>
 
         <HemisphereLight
@@ -37,9 +39,13 @@
             intensity={1} />
 
         {#if showing == 'svelte'}
-            <Svelte />
+            <Transition let:value>
+                <Svelte {...svelteProps} opacity={value} />
+            </Transition>
         {:else if showing == 'beyonk'}
-            <Beyonk />
+            <Transition let:value>
+                <Beyonk {...beyonkProps} opacity={value} />
+            </Transition>
         {/if}
     </Canvas>
 </div>

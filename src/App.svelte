@@ -39,13 +39,13 @@
             intensity={1} />
 
         {#if showing == 'svelte'}
-            <Transition let:value>
-                <Svelte {...svelteProps} opacity={value} />
-            </Transition>
+            <!-- <Transition let:value> -->
+            <Svelte {...svelteProps} />
+            <!-- </Transition> -->
         {:else if showing == 'beyonk'}
-            <Transition let:value>
-                <Beyonk {...beyonkProps} opacity={value} />
-            </Transition>
+            <!-- <Transition let:value> -->
+            <Beyonk {...beyonkProps} />
+            <!-- </Transition> -->
         {/if}
     </Canvas>
 </div>

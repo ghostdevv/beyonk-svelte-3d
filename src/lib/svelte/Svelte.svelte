@@ -1,8 +1,16 @@
 <script lang="ts">
+    import { tweened } from 'svelte/motion';
     import { Mesh } from '@threlte/core';
+    import { onMount } from 'svelte';
     import * as THREE from 'three';
 
-    export let opacity: number = 1;
+    export let opacity = tweened(0, {
+        duration: 1000,
+    });
+
+    onMount(() => {
+        $opacity = 1;
+    });
 
     export let outerGeometry: THREE.ExtrudeGeometry;
     export let innerGeometry: THREE.ExtrudeGeometry;
@@ -16,7 +24,8 @@
     material={new THREE.MeshStandardMaterial({
         color: new THREE.Color('#ff3e00'),
         side: THREE.DoubleSide,
-        opacity,
+        transparent: true,
+        opacity: $opacity,
     })} />
 
 <Mesh
@@ -27,5 +36,6 @@
     material={new THREE.MeshStandardMaterial({
         color: new THREE.Color('#ffffff'),
         side: THREE.DoubleSide,
-        opacity,
+        transparent: true,
+        opacity: $opacity,
     })} />

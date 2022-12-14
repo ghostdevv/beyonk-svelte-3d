@@ -1,12 +1,20 @@
 <script lang="ts">
     import { Mesh, Group } from '@threlte/core';
+    import { tweened } from 'svelte/motion';
+    import { onMount } from 'svelte';
     import * as THREE from 'three';
-
-    export let opacity: number = 1;
 
     export let geometry: THREE.ExtrudeGeometry;
     export let upperGeometry: THREE.ExtrudeGeometry;
     export let lowerGeometry: THREE.ExtrudeGeometry;
+
+    export let opacity = tweened(0, {
+        duration: 1000,
+    });
+
+    onMount(() => {
+        $opacity = 1;
+    });
 </script>
 
 <Group position={{ x: 0, y: 25, z: 0 }}>
@@ -18,7 +26,8 @@
         material={new THREE.MeshStandardMaterial({
             color: new THREE.Color('#32B0A2'),
             side: THREE.DoubleSide,
-            opacity,
+            opacity: $opacity,
+            transparent: true,
         })} />
 
     <Mesh
@@ -29,7 +38,8 @@
         material={new THREE.MeshStandardMaterial({
             color: new THREE.Color('#32B0A2'),
             side: THREE.DoubleSide,
-            opacity,
+            opacity: $opacity,
+            transparent: true,
         })} />
 </Group>
 
@@ -41,5 +51,6 @@
     material={new THREE.MeshStandardMaterial({
         color: new THREE.Color('#32B0A2'),
         side: THREE.DoubleSide,
-        opacity,
+        opacity: $opacity,
+        transparent: true,
     })} />
